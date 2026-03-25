@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Reinaert</title>
+  <title>Reinaert Forest Survival</title>
   <style>
     body {
       margin:0;
-      background:#0b1220;
+      background: #011a14;
       color:white;
       font-family:Arial;
       display:flex;
@@ -33,7 +33,7 @@
 }
  
     canvas {
-      background:#020617;
+      background:"#022c22";
       border:2px solid white;
       box-shadow:0 0 20px white;
     }
@@ -95,16 +95,16 @@
 </head>
 <body>
 
-<h2>Reinaert</h2>
+<h2>Reinaert Forest Survival</h2>
 
 <div id="ui">
-  <div id="scoreDisplay">Score: 0 | Highscore: 0 | 🪙: 0</div>
+  <div id="scoreDisplay">Score: 0 | Highscore: 0 | 🐤: 0</div>
 </div>
 
 <canvas id="game" width="400" height="400"></canvas>
 
 <div id="overlay">
-  <h1 id="titleText">Reinaert</h1>
+  <h1 id="titleText">Reinaert Forest Survival</h1>
   
   <div id="settingsOverlay" style="display:none;">
   <h1>Settings</h1>
@@ -113,6 +113,13 @@
     🔊 Sound:
     <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
   </label>
+  
+  <br><br>
+
+<label>
+  🏃 Speed:
+  <input type="range" id="speedSlider" min="0.2" max="2" step="0.1" value="1">
+</label>
   
   <br><br>
 
@@ -216,6 +223,7 @@ let player2 = null;
 let coinbomb = coins;
 let coinBombTimer = 0;
 let baseSpeed;
+let playerSpeedMultiplier = 1;
 
 function openSettings() {
   document.getElementById("settingsOverlay").style.display = "flex";
@@ -254,6 +262,10 @@ document.getElementById("volumeSlider").oninput = (e) => {
 
 document.getElementById("playerMode").onchange = (e) => {
   playerMode = e.target.value;
+};
+
+document.getElementById("speedSlider").oninput = (e) => {
+  playerSpeedMultiplier = parseFloat(e.target.value);
 };
 
 function startGame() {
@@ -442,9 +454,10 @@ if (shieldActive) {
   if (coinMultiplierTimer <= 0) coinMultiplierActive = false;
 }
 
-  let accel = 0.5;
+  let accel = 0.5 * playerSpeedMultiplier;
   
   let baseSpeed;
+  baseSpeed = (gameMode === "hard" ? 8 : 4) * playerSpeedMultiplier;
 
 if (gameMode === "hard") {
   baseSpeed = 8;
@@ -638,29 +651,36 @@ enemies.push({
 }
 
   document.getElementById("scoreDisplay").innerText =
-  "Score: " + score + " | Highscore: " + highscore + " | 🪙: " + coins;
+  "Score: " + score + " | Highscore: " + highscore + " | 🐤: " + coins;
 }
 
 function draw() {
-  ctx.fillStyle = "#020617";
+  ctx.fillStyle = "#022c22";
   ctx.fillRect(0,0,400,400);
 
-  // PLAYER (🦊)
+// PLAYER 1
 if (player) {
+  ctx.save();
+
   ctx.font = "32px Arial";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
+
   ctx.fillText("🦊", player.x, player.y);
-  
-ctx.restore();
 
+  ctx.restore();
 
-// PLAYER 2 (🦊)
+// PLAYER 2
 if (player2) {
+  ctx.save();
+
   ctx.font = "32px Arial";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
+
   ctx.fillText("🦊", player2.x, player2.y);
+
+  ctx.restore();
 }
   
   
