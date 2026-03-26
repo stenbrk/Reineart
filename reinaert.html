@@ -524,7 +524,7 @@ if (gameMode === "hard") {
   let spawnX = Math.random() * 400;
   let spawnY = -20;
 
-  let types = ["nobel", "bear", "wolf"];
+  let types = ["nobel", "bear", "wolf", "cat", "ram"];
 let type = types[Math.floor(Math.random() * types.length)];
 
 enemies.push({
@@ -649,27 +649,39 @@ function draw() {
   ctx.fillStyle = "#022c22";
   ctx.fillRect(0,0,400,400);
 
-// PLAYER 1
+// PLAYER 1 🦊 (Reinaert)
 if (player) {
   ctx.save();
 
-  ctx.font = "32px Arial";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
+  // naam boven de vos
+  ctx.fillStyle = "#FF8C00";
+  ctx.font = "14px Arial";
+  ctx.fillText("Reinaert", player.x, player.y - 24);
+
+  // de vos zelf
+  ctx.font = "32px Arial";
   ctx.fillText("🦊", player.x, player.y);
 
   ctx.restore();
 
-// PLAYER 2
+// PLAYER 2 🦡 (bijv. "Buur")
 if (player2) {
   ctx.save();
 
-  ctx.font = "32px Arial";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
-  ctx.fillText("🦊", player2.x, player2.y);
+  // naam boven de emoji
+  ctx.fillStyle = "#807878";
+  ctx.font = "14px Arial";
+  ctx.fillText("Buur", player2.x, player2.y - 20);
+
+  // de emoji zelf
+  ctx.font = "40px Arial";
+  ctx.fillText("🦡", player2.x, player2.y);
 
   ctx.restore();
 }
@@ -717,30 +729,85 @@ if (player2) {
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
-  // KING NOBEL 🦁👑 (bijvoorbeeld type "nobel")
-  if (e.type === "nobel") {
-    ctx.font = "30px Arial";
+  // KING NOBEL 🦁👑 (Nobel)
+if (e.type === "nobel") {
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
 
-    // kroon boven de leeuw
-    ctx.fillText("👑", e.x, e.y - 18);
+  // naam boven de kroon
+  ctx.fillStyle = "#FFD700";
+  ctx.font = "15px Arial";
+  ctx.fillText("Nobel", e.x, e.y - 42);
 
-    // leeuw
-    ctx.fillText("🦁", e.x, e.y);
-  }
+  // kroon boven de leeuw
+  ctx.font = "30px Arial";
+  ctx.fillText("👑", e.x, e.y - 18);
 
-  // BEER 🐻
-  else if (e.type === "bear") {
-    ctx.font = "30px Arial";
-    ctx.fillText("🐻", e.x, e.y);
-  }
+  // leeuw
+  ctx.fillText("🦁", e.x, e.y);
+}
 
-  // WOLF 🐺
-  else if (e.type === "wolf") {
-    ctx.font = "30px Arial";
-    ctx.fillText("🐺", e.x, e.y);
-  }
+  // BEER 🐻 (Bruun)
+else if (e.type === "bear") {
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
 
-  // fallback (oude red cirkel)
+  // naam boven de beer
+  ctx.fillStyle = "#9c7878";
+  ctx.font = "15px Arial";
+  ctx.fillText("Bruun", e.x, e.y - 28);
+
+  // beer zelf
+  ctx.font = "30px Arial";
+  ctx.fillText("🐻", e.x, e.y);
+}
+
+  // WOLF 🐺 (Isengrim)
+else if (e.type === "wolf") {
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  // naam boven de wolf
+  ctx.fillStyle = "#ababab";
+  ctx.font = "15px Arial";
+  ctx.fillText("Isengrim", e.x, e.y - 26);
+
+  // wolf zelf
+  ctx.font = "30px Arial";
+  ctx.fillText("🐺", e.x, e.y);
+}
+  
+  // ram 🐑 (Belijn)
+else if (e.type === "ram") {
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  // naam boven de ram
+  ctx.fillStyle = "white";
+  ctx.font = "15px Arial";
+  ctx.fillText("Belijn", e.x, e.y - 27);
+
+  // ram zelf
+  ctx.font = "30px Arial";
+  ctx.fillText("🐑", e.x, e.y);
+}
+  
+  // kater 🐱 (Tibert)
+else if (e.type === "cat") {
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  // naam boven de kat
+  ctx.fillStyle = "#FFD700";
+  ctx.font = "15px Arial";
+  ctx.fillText("Tibert", e.x, e.y - 26);
+
+  // kat zelf
+  ctx.font = "30px Arial";
+  ctx.fillText("🐱", e.x, e.y);
+}
+
+  // (oude red cirkel weg)
   else {
     ctx.beginPath();
     ctx.arc(e.x, e.y, e.r, 0, Math.PI * 2);
