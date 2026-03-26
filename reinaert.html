@@ -385,9 +385,7 @@ function updateLeaderboardUI() {
 }
 
 function spawnCollectible() {
-    
   let y = 100 + Math.random() * 280;
-
   collectibles.push({
     x: Math.random() * 380,
     y: y,
@@ -582,12 +580,21 @@ enemies.push({
 
   // COIN
   if (c.type === "coin" || !c.type) {
-    if (coinMultiplierActive) {
-      score += 2;
-    } else {
-      score += 1;
-    }
+  if (coinMultiplierActive) {
+    score += 2;
+  } else {
+    score += 1;
+  }
     playBeep(600, 0.1, "triangle", 0.1);
+
+    if (coinBombActive) {
+      coinsInGame--;
+
+      if (coinsInGame <= 4) {
+        coinBombActive = false;
+        coinsInGame = 4;
+      }
+    }
   }
 
   // MAGNET
@@ -611,34 +618,24 @@ enemies.push({
     playBeep(200, 0.3, "square", 0.3);
   }
 
+  spawnCollectible();
   return false;
 }
-
-  return true;
-});
+    return true;
+  });
   
   if (score >= 20 && Math.floor(score / 20) > powerupSpawnedFor20) {
   spawnPowerup();
   powerupSpawnedFor20 = Math.floor(score / 20);
 }
 
-  if (coinBombActive) {
-  // blijf coins op max 14 tijdens bomb
-  while (collectibles.length < 14) {
-    spawnCollectible();
-  }
+  // Altijd vullen tot coinsInGame
+while (collectibles.length < coinsInGame) spawnCollectible();
 
-  // zodra je onder 4 komt → reset
-  if (collectibles.length <= 3) {
-    coinBombActive = false;
-    coinsInGame = 4;
-  }
-
-} else {
-  // normaal gedrag
-  while (collectibles.length < 4) {
-    spawnCollectible();
-  }
+// Als coinBomb actief en alle coins gepakt
+if (coinBombActive && collectibles.length <= 3) {
+  coinBombActive = false;
+  coinsInGame = 4;
 }
 
   document.getElementById("scoreDisplay").innerText =
