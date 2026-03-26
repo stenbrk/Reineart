@@ -116,12 +116,6 @@
   
   <br><br>
 
-<label>
-  🏃 Speed:
-  <input type="range" id="speedSlider" min="0.2" max="2" step="0.1" value="1">
-</label>
-  
-  <br><br>
 
 <label>
   👥 Players:
@@ -264,9 +258,6 @@ document.getElementById("playerMode").onchange = (e) => {
   playerMode = e.target.value;
 };
 
-document.getElementById("speedSlider").oninput = (e) => {
-  playerSpeedMultiplier = parseFloat(e.target.value);
-};
 
 function startGame() {
   playerName = "Player";
@@ -454,7 +445,7 @@ if (shieldActive) {
   if (coinMultiplierTimer <= 0) coinMultiplierActive = false;
 }
 
-  let accel = 0.5 * playerSpeedMultiplier;
+  let accel = 0.8;
   
   let baseSpeed;
   baseSpeed = (gameMode === "hard" ? 8 : 4) * playerSpeedMultiplier;
