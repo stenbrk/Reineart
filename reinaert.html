@@ -91,6 +91,15 @@
   color: black;
   background: white;
 }
+
+button {
+  transition: 0.2s;
+}
+
+button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px white;
+}
   </style>
 </head>
 <body>
@@ -218,6 +227,7 @@ let coinbomb = coins;
 let coinBombTimer = 0;
 let baseSpeed;
 let playerSpeedMultiplier = 1;
+let particles = [];
 
 function openSettings() {
   document.getElementById("settingsOverlay").style.display = "flex";
@@ -642,6 +652,14 @@ if (coinBombActive && collectibles.length <= 3) {
   "Score: " + score + " | Highscore: " + highscore + " | 🐤: " + coins;
 }
 
+particles.forEach(p => {
+  p.x += p.dx;
+  p.y += p.dy;
+  p.life--;
+});
+
+particles = particles.filter(p => p.life > 0);
+
 function draw() {
   ctx.fillStyle = "#022c22";
   ctx.fillRect(0,0,400,400);
@@ -861,6 +879,24 @@ else {
   ctx.textBaseline = "middle";
   ctx.fillText("🐤", c.x, c.y);
 }
+});
+
+function spawnParticles(x, y, color = "yellow") {
+  for (let i = 0; i < 8; i++) {
+    particles.push({
+      x: x,
+      y: y,
+      dx: (Math.random() - 0.5) * 4,
+      dy: (Math.random() - 0.5) * 4,
+      life: 30,
+      color: color
+    });
+  }
+}
+
+particles.forEach(p => {
+  ctx.fillStyle = p.color;
+  ctx.fillRect(p.x, p.y, 3, 3);
 });
 }
 
